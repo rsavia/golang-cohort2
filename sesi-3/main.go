@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"reflect"
 )
 
 type Teman struct {
@@ -31,6 +32,8 @@ func main() {
 		{nama:"triisya", alamat:"karang tengah", pekerjaan:"qa", alasan:"ikut dizty"},
 	}
 
+	typeTeman := reflect.TypeOf(temanKelas[0])
+
 	arg := args[0]
 	
 	// Cek jika input merupakan int
@@ -50,10 +53,10 @@ func main() {
 
 		if found {
 			fmt.Println("id:", index)
-			fmt.Println("nama:", value.nama)
-			fmt.Println("alamat:", value.alamat)
-			fmt.Println("pekerjaan:", value.pekerjaan)
-			fmt.Println("alasan:", value.alasan)
+			for i := 0; i < typeTeman.NumField(); i++ {
+				field := typeTeman.Field(i)
+				fmt.Printf("%s: %s\n", field.Name, reflect.ValueOf(&value).Elem().FieldByName(field.Name))
+			}
 			break
 		}
 	}
